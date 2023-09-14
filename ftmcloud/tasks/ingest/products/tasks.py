@@ -1,4 +1,4 @@
-from ftmcloud.core.crosscutting.models.tasks import BaseTask
+from ftmcloud.core.crosscutting.models.tasks.tasks import BaseTask
 
 
 class ProductImportTask(BaseTask):
@@ -7,4 +7,8 @@ class ProductImportTask(BaseTask):
     """
 
     def __init__(self):
-        super().__init__()
+        super().__init__(name="product_import", exchange_name="", queue="", routing_key="")
+
+    def handle_message(self, body, message):
+        print("Hello world!")
+        pass

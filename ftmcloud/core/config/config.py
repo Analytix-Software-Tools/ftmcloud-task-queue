@@ -15,3 +15,16 @@ class BaseConfig:
     RABBITMQ_URI = base64.b64decode(RABBITMQ_URI_ENCODED)
     BROKER_URI = RABBITMQ_URI
 
+    MONGO_URI_ENCODED = os.environ['MONGO_URI_ENCODED'] if 'MONGO_URI_ENCODED' in os.environ else ''
+    MONGO_URI = base64.b64decode(MONGO_URI_ENCODED)
+
+
+class DevConfig(BaseConfig):
+    pass
+
+
+class ProdConfig(BaseConfig):
+    pass
+
+
+config = DevConfig
