@@ -16,3 +16,12 @@ Contains domain-specific task logic that can be executed at any point in time.
 Tasks are defined in an object-oriented pattern in which each desired task should inherit from the "BaseTask" class. In
 general, tasks should subscribe to independent queues each with their own separate priorities and maximum number of
 concurrent tasks.
+
+### TODO:
+* Define BaseTask abstraction structure and queue-based subscription system
+* Document edge cases that may result in concurrency concerns (i.e. deadlock)
+* Document types of tasks
+* Develop pipeline system for defining sub-tasks where necessary
+* Develop error system and functionality to log errors to file
+* Boost test coverage for all tasks
+* Setup CI/CD to run tests
