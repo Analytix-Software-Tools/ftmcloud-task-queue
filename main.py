@@ -1,6 +1,4 @@
-from ftmcloud.core.app.app import TaskQueueApplication
+import subprocess
 
-app = TaskQueueApplication()
-
-if __name__ == '__main__':
-    app.init()
+if __name__ == "__main__":
+    subprocess.run(["celery", "-A", "app", "worker", "--loglevel=INFO"])

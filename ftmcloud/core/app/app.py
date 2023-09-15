@@ -14,19 +14,15 @@ class TaskQueueApplication(Celery):
         """
         Initialize a new instance of the application.
 
-        :param options
-        :param config:
+        :param options: the options
+        :param config: the config
         """
-        super().__init__()
         if not isinstance(config, BaseConfig):
             raise InvalidConfigException()
-        self.app = Celery(
+        super().__init__(
             broker=config.BROKER_URI,
             backend=config.BACKEND_URI
         )
-        self.app.autodiscover_tasks(
+        self.autodiscover_tasks(
             packages=['ftmcloud.tasks']
         )
-
-    def init(self):
-        pass
