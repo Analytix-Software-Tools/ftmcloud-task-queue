@@ -10,7 +10,7 @@ class TaskQueueApplication(Celery):
     necessary. Wraps the celery application.
     """
 
-    def __init__(self, options=None, config=BaseConfig()):
+    def __init__(self, config=BaseConfig(), *args):
         """
         Initialize a new instance of the application.
 
@@ -20,8 +20,10 @@ class TaskQueueApplication(Celery):
         if not isinstance(config, BaseConfig):
             raise InvalidConfigException()
         super().__init__(
+            'ftmcloud.tasks',
             broker=config.BROKER_URI,
-            backend=config.BACKEND_URI
+            backend=config.BACKEND_URI,
+            *args,
         )
         self.autodiscover_tasks(
             packages=['ftmcloud.tasks']
