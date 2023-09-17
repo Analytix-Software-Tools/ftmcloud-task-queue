@@ -1,16 +1,25 @@
 import pymongo
+from celery import bootsteps
+from kombu import Consumer, Queue, Exchange
 
-from ftmcloud.core.crosscutting.models.tasks.task import BaseTask
-from pymongo import MongoClient
 
-
-class ProductImportTask(BaseTask):
+class ProductImportTask(bootsteps.ConsumerStep):
     """
     Ingests many products into MongoDB.
     """
 
-    def __init__(self):
-        super().__init__(name="product_import", exchange_name="", queue="product_import", routing_key="")
+    my_queue = Queue('product_import', Exchange('main'), 'routing_key')
+
+    def get_consumers(self, channel):
+        return [Consumer(channel,
+                         queues=[self.my_queue],
+                         callbacks=[self.handle_message],
+                         accept=['json'])]
+
+
+    def on_message(self, body, message):
+        print("I got a message")
+        message.ack()
 
     def handle_message(self, body, message):
         # NOTE: DO NOT USE THIS IN PRODUCTION. PURELY FOR TESTING

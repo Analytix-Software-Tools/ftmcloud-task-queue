@@ -1,10 +1,10 @@
-from celery import Task
-from kombu import Connection, Exchange, Queue
+from celery import Task, bootsteps
+from kombu import Connection, Exchange, Queue, Consumer
 from ftmcloud.core.config.config import config
 from ftmcloud.core.exception.exception import UndefinedMessageAckException
 
 
-class BaseTask(Task):
+class BaseTask(bootsteps.ConsumerStep):
     """
     Represents a base task that wraps the default Celery task.
     """
@@ -24,19 +24,22 @@ class BaseTask(Task):
         :param kwargs: additional kwargs to pass to base Task class
         """
         super().__init__(*args, **kwargs)
-        # Define the connection to the RabbitMQ broker in the constructor
         self.name = name
         self._queue_name = queue
         self._exchange_name = exchange_name
         self._routing_key = routing_key
         self.connection = Connection(config.BROKER_URI)
 
+    def get_consumers(self, channel):
+        return [Consumer(channel,
+                         queues=[self._queue_name],
+                         callbacks=[self.handle_message],
+                         accept=['json'])]
+
     def run(self):
-        # Declare the exchange and queue you want to bind to
         exchange = Exchange(self._exchange_name, type='direct')
         queue = Queue(self._queue_name, exchange=exchange, routing_key='my_routing_key')
 
-        # Create a consumer
         consumer = self.connection.Consumer(queue)
         consumer.register_callback(self.process_message)
 
@@ -53,9 +56,9 @@ class BaseTask(Task):
         self.handle_message(body=body, message=message)
         message.ack()
 
-    def __del__(self):
-        # Close the connection when the task is destroyed
-        self.connection.close()
+    # def __del__(self):
+    #     # Close the connection when the task is destroyed
+    #     self.connection.close()
 
 
 class PipelineTask(Task):
