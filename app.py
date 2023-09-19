@@ -16,7 +16,7 @@ app.conf.update(
     timezone='Europe/Oslo',
     enable_utc=True,
 )
-app.select_queues(queues=["product_import", "celery"])
+# app.select_queues(queues=["product_import", "celery"])
 app.steps['consumer'].add(ProductImportTask)
 
 
