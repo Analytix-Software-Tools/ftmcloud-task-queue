@@ -10,7 +10,8 @@ ingestion tasks. In general, this application serves as the consumer/subscriber 
 Contains logic relating to the core application functionality as well as logic that is crosscutting.
 
 ### tasks
-Contains domain-specific task logic that can be executed at any point in time.
+Contains domain-specific task logic that can be executed at any point in time. These are separated by type of task
+and further by domain.
 
 ## Application Logic
 Tasks are defined in an object-oriented pattern in which each desired task should inherit from the "BaseTask" class. In
@@ -25,3 +26,4 @@ concurrent tasks.
 * Develop error system and functionality to log errors to file
 * Boost test coverage for all tasks
 * Setup CI/CD to run tests
+* Abstract some of the MongoDB functionality to incorporate transactions and write concerns (see https://www.mongodb.com/docs/manual/core/transactions/)
