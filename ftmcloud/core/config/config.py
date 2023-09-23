@@ -8,15 +8,15 @@ class BaseConfig:
     """
 
     REDIS_URI_ENCODED = os.environ['REDIS_URI_ENCODED'] if 'REDIS_URI_ENCODED' in os.environ else ''
-    REDIS_URI = base64.b64decode(REDIS_URI_ENCODED)
+    REDIS_URI = base64.b64decode(REDIS_URI_ENCODED).decode('utf-8')
     BACKEND_URI = REDIS_URI
 
     RABBITMQ_URI_ENCODED = os.environ['RABBITMQ_URI_ENCODED'] if 'RABBITMQ_URI_ENCODED' in os.environ else ''
-    RABBITMQ_URI = base64.b64decode(RABBITMQ_URI_ENCODED)
+    RABBITMQ_URI = base64.b64decode(RABBITMQ_URI_ENCODED).decode('utf-8')
     BROKER_URI = RABBITMQ_URI
 
     MONGO_URI_ENCODED = os.environ['MONGO_URI_ENCODED'] if 'MONGO_URI_ENCODED' in os.environ else ''
-    MONGO_URI = base64.b64decode(MONGO_URI_ENCODED)
+    MONGO_URI = base64.b64decode(MONGO_URI_ENCODED).decode('utf-8')
 
 
 class DevConfig(BaseConfig):

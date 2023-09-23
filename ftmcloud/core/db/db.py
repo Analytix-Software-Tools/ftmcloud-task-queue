@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 from ftmcloud.core.config.config import config
-from ftmcloud.core.crosscutting.models.singleton.singleton import Singleton
+from ftmcloud.core.crosscutting.models.singleton.models import Singleton
 
 
 class MongoDBSingleton(Singleton):

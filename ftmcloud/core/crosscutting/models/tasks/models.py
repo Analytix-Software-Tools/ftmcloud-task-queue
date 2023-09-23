@@ -51,9 +51,8 @@ class BaseTask(bootsteps.ConsumerStep):
         self.handle_message(body=body, message=message)
         message.ack()
 
-    # def __del__(self):
-    #     # Close the connection when the task is destroyed
-    #     self.connection.close()
+    def __del__(self):
+        self.connection.close()
 
 
 class JsonConsumerTask(BaseTask):

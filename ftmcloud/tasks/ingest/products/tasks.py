@@ -2,7 +2,7 @@ import pymongo
 from celery import bootsteps
 from kombu import Consumer, Queue, Exchange
 
-from ftmcloud.core.crosscutting.models.tasks.task import MongoJSONConsumerTask
+from ftmcloud.core.crosscutting.models.tasks.models import MongoJSONConsumerTask
 
 
 class ProductImportTask(bootsteps.ConsumerStep):
@@ -33,5 +33,15 @@ class ProductImportTask(bootsteps.ConsumerStep):
 
 class ProductTask(MongoJSONConsumerTask):
 
+    name = "product_task"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
     def handle_message(self, body, message):
-        print(body)
+        db = self._db.get_database('memorymaker')
+        db.get_collection('test').insert_one(
+            {
+                "the product TASK": "it worked"
+            }
+        )
