@@ -6,7 +6,7 @@ import sys
 
 from celery import Celery
 from ftmcloud.core.config.config import config
-from ftmcloud.tasks.ingest.products.tasks import ProductImportTask
+from ftmcloud.tasks.ingest.products.tasks import ProductTask
 
 app = Celery('ftmcloud.tasks', broker=config.BROKER_URI, backend=config.BACKEND_URI)
 app.conf.update(
@@ -17,7 +17,7 @@ app.conf.update(
     enable_utc=True,
 )
 # app.select_queues(queues=["product_import", "celery"])
-app.steps['consumer'].add(ProductImportTask)
+app.steps['consumer'].add(ProductTask)
 
 
 app.start(argv=sys.argv[1:])

@@ -40,12 +40,3 @@ class MongoRepository:
                 write_concern=write_concern,
                 read_preference=ReadPreference.PRIMARY,
             )
-
-
-class Repository(MongoRepository):
-    """
-    Provides common functions wrapping functions.
-    """
-
-    def __init__(self):
-        pass

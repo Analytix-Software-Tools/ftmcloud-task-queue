@@ -66,7 +66,7 @@ class JsonConsumerTask(BaseTask):
         :param args:
         :param kwargs:
         """
-        super().__init__( *args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def process_message(self, body, message):
         """ Enforce the body of the message be a JSON.
@@ -100,13 +100,8 @@ class PipelineTask(Task):
         pass
 
 
-class TaskPipeline:
+class MongoPipelineTask(PipelineTask):
     """
-    Represents a pipeline for a sequence of tasks to be completed with
-    producer-consumer logic.
+    Pipeline task that manages mongo database interactions.
     """
-
-    task_pipeline = []
-
-    def __init__(self, task_pipeline):
-        self.task_pipeline = task_pipeline
+    pass

@@ -1,4 +1,4 @@
-from pymongo import MongoClient
+from mongotransactions.database import Database
 from ftmcloud.core.config.config import config
 from ftmcloud.core.crosscutting.models.singleton.models import Singleton
 
@@ -11,5 +11,5 @@ class MongoDBSingleton(Singleton):
     mongo_instance = None
 
     def __new__(cls, *args, **kwargs):
-        cls.mongo_instance = MongoClient(config.MONGO_URI)
+        cls.mongo_instance = Database(config.MONGO_URI)
         super(MongoDBSingleton, cls).__new__(cls, *args, **kwargs)
